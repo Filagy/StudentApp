@@ -17,11 +17,11 @@ namespace StudentASP
     public class Startup
     {
         private IConfigurationRoot _confString;
-        
+
         public Startup(IWebHostEnvironment env)
         {
             _confString = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath).AddJsonFile("dbsetting.json").Build();
+                .SetBasePath(env.ContentRootPath).AddJsonFile("dbsettings.json").Build();
         }
 
 
@@ -54,6 +54,12 @@ namespace StudentASP
             app.UseRouting();
 
             app.UseAuthorization();
+
+            using(var scope = app.ApplicationServices.CreateScope())
+            {
+                AppDbContext context = app.ApplicationServices.GetRequiredService<AppDbContext>();
+                DbObjects.Initial(context);
+            }
 
             app.UseEndpoints(endpoints =>
             {
