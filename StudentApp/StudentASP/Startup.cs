@@ -54,10 +54,12 @@ namespace StudentASP
             app.UseRouting();
 
             app.UseAuthorization();
+            //app.UseMvcWithDefaultRoute();
+            
 
             using(var scope = app.ApplicationServices.CreateScope())
             {
-                AppDbContext context = app.ApplicationServices.GetRequiredService<AppDbContext>();
+                AppDbContext context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                 DbObjects.Initial(context);
             }
 
