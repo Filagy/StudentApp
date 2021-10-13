@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace StudentASP.Interfaces
 {
-    public interface IAllStudents
+    public interface IStudents
     {
         List<Student> AllStudents { get; }
+        List<Student> ExcellentStudents { get; }
+        List<Student> GoodStudents { get; }
+        List<Student> BadStudents { get; }
+        List<Teacher> AllTeachers { get; }
     }
 }

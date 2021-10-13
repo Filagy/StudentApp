@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace StudentASP.Models
 {
-    [Table("Teachers")]
+    
     public class Teacher:Person
     {
-        public int StudentId { get; set; }
-        public virtual Student Student { get; set; }
+        public virtual List<Subject> Subjects { get; set; }
+        public virtual List<Student> Students { get; set; }
     }
 }

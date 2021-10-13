@@ -28,11 +28,11 @@ namespace StudentASP
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(_confString.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<AppDbContext>(options => options.UseLazyLoadingProxies()
+                .UseSqlServer(_confString.GetConnectionString("DefaultConnection")));
             services.AddMvc();
             services.AddControllersWithViews();
-            services.AddTransient<IAllStudents, StudentRepository>();
+            services.AddTransient<IStudents, StudentRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,15 +59,23 @@ namespace StudentASP
 
             using(var scope = app.ApplicationServices.CreateScope())
             {
-                AppDbContext context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                 DbObjects.Initial(context);
             }
 
             app.UseEndpoints(endpoints =>
             {
+                //endpoints.MapControllerRoute(
+                //    name: "default",
+                //    pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Student}/{action=AllStudents}");
+
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Student}/{action=BadStudents}");
+
             });
         }
     }

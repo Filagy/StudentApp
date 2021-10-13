@@ -6,52 +6,52 @@
     <title>@ViewData["Title"] - Student Base</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/mystyle.css" />
     
 </head>
 <body>
-    <header class="p-3 bg-dark text-white">
-        
-        <div class="container">
-            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-                    <svg class="bi me-2" width="40" height="32" role="img" aria-label="bootstrap"><use xlink:href="https://static.tildacdn.com/tild3836-6461-4566-b364-653965363463/2logo2019-tilda.png"></use></svg>
-                </a>
+    <div class='content'>
+        <header class="p-3 bg-dark text-white">
 
-                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                    <li><a href="#" class="nav-link px-2 text-white">Все студенты</a></li>
-                    <li><a href="#" class="nav-link px-2 text-white">Отличники</a></li>
-                    <li><a href="#" class="nav-link px-2 text-white">Хорошисты</a></li>
-                    <li><a href="#" class="nav-link px-2 text-white">Неуспевающие</a></li>
+            <div class="container">
+                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                    @*<a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                        <svg class="bi me-2" width="40" height="32" role="img" aria-label="bootstrap"><use xlink:href="https://static.tildacdn.com/tild3836-6461-4566-b364-653965363463/2logo2019-tilda.png"></use></svg>
+                    </a>*@
 
-                </ul>
+                    <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                        <li><a href="#" class="nav-link px-2 text-white">Все студенты</a></li>
+                        <li><a href="#" class="nav-link px-2 text-white">Отличники</a></li>
+                        <li><a href="#" class="nav-link px-2 text-white">Хорошисты</a></li>
+                        <li><a href="/Student/BadStudents" class="nav-link px-2 text-white">Неуспевающие</a></li>
 
-                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-                    <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
-                </form>
+                    </ul>
 
-                <div class="text-end float-right">
-                    <button type="button" class="btn btn-outline-light me-2">Login</button>
-                    <button type="button" class="btn btn-warning">Sign-up</button>
+                    @*<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-5">
+                        <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
+                    </form>*@
+
+
                 </div>
             </div>
-        </div>
 
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
+        </header>
         <div class="container">
-            &copy; 2021 - Student Base - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <main role="main" class="col-12 pb-3">
+                @RenderBody()
+            </main>
         </div>
-    </footer>
-    <script scr="~/js/bootstrap.min.js"></script>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @RenderSection("Scripts", required: false)
+
+        <footer class="border-top footer text-muted">
+            <div class="container">
+                &copy; 2021 - Student Base - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
+        </footer>
+        <script scr="~/js/bootstrap.min.js"></script>
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        @RenderSection("Scripts", required: false)
+    </div>
 </body>
 </html>

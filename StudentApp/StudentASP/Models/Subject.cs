@@ -5,14 +5,22 @@ using System.Threading.Tasks;
 
 namespace StudentASP.Models
 {
+    public enum TitleSubject
+    {
+        History,
+        Math,
+        Geography,
+        English,
+        Biology
+    }
     public class Subject
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public int Score { get; set; }
-        public DateTime Date { get; set; }
-        public int StudentId { get; set; }
-        public virtual Student Student { get; set; }
+        public TitleSubject Title { get; set; }
+        public virtual List<Score> Scores { get; set; }
+
+        public int TeacherId { get; set; }
+        public virtual Teacher Teacher { get; set; }
 
     }
 }
