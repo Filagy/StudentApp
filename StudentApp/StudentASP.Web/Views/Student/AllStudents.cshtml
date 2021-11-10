@@ -1,0 +1,48 @@
+﻿<div class="row col-12 mt-4">
+    <h1>Все студенты</h1>
+</div>
+
+<table class="table mt-4">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Имя</th>
+            <th scope="col">Фамилия</th>
+            <th scope="col">Номер группы</th>
+            <th scope="col">Классный руководитель</th>
+            <th scope="col">Средний балл</th>
+        </tr>
+    </thead>
+    <tbody>
+
+
+
+        @foreach (Student student in Model.AllStudents)
+        {
+            <tr>
+
+                <td scope="row">@student.FirstName</td>
+                <th>@student.LastName</th>
+                <th>@student.NumberGroup</th>
+
+                @foreach (Teacher teacher in Model.Teachers)
+                {
+                    if (true)
+                    {
+                        <th>
+                            @teacher.FirstName
+                        </th>
+                    }
+                }
+                <th>5</th>
+
+                
+            </tr>
+        }
+
+
+
+        </tbody>
+</table>
+
+
+
