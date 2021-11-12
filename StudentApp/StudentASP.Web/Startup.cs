@@ -8,9 +8,8 @@ using Microsoft.Extensions.Hosting;
 using StudentASP.DataAccess.MSSQL;
 using StudentASP.DataAccess.MSSQL.Repository;
 using StudentASP.Domain.Interfaces;
-using StudentASP.Web;
 
-namespace StudentASP
+namespace StudentASP.Web
 {
     public class Startup
     {
@@ -36,7 +35,7 @@ namespace StudentASP
 
             services.AddMvc();
             services.AddControllersWithViews();
-            services.AddTransient<IStudentsRepository, StudentsRepository>();
+            services.AddTransient<IStudentRepository, StudentRepository>();
         }
 
 
@@ -59,12 +58,12 @@ namespace StudentASP
 
             app.UseAuthorization();
             //app.UseMvcWithDefaultRoute();
-            
 
-            using(var scope = app.ApplicationServices.CreateScope())
+
+            using (var scope = app.ApplicationServices.CreateScope())
             {
                 var context = scope.ServiceProvider.GetRequiredService<StudentAppDbContext>();
-                
+
                 DbObjects.Initial(context);
             }
 
@@ -75,11 +74,7 @@ namespace StudentASP
                 //    pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Student}/{action=AllStudents}");
-
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Student}/{action=BadStudents}");
+                    pattern: "{controller=Students}/{action=list}");
 
             });
         }

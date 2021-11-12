@@ -1,5 +1,7 @@
-﻿<div class="row col-12 mt-4">
-    <h1>Неуспевающие</h1>
+﻿@model List<Student>
+
+<div class="row col-12 mt-4">
+    <h1>Все студенты</h1>
 </div>
 
 <table class="table mt-4">
@@ -14,32 +16,17 @@
     </thead>
     <tbody>
 
-
-
-        @foreach (Student student in Model.BadStudents)
+        @foreach (Student student in Model)
         {
             <tr>
-
                 <td scope="row">@student.FirstName</td>
                 <th>@student.LastName</th>
                 <th>@student.NumberGroup</th>
-
-                @foreach (Teacher teacher in Model.Teachers)
-                {
-                    if (true)
-                    {
-                        <th>
-                            @teacher.FirstName
-                        </th>
-                    }
-                }
+                <th>Teaher</th>
                 <th>5</th>
-
-                
             </tr>
         }
-        </tbody>
+
+    </tbody>
 </table>
-
-
 
