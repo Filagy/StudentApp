@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using StudentASP.DataAccess.MSSQL;
 using StudentASP.DataAccess.MSSQL.Repository;
 using StudentASP.Domain.Interfaces;
+using StudentASP.Web;
 
 namespace StudentASP
 {
@@ -24,8 +25,15 @@ namespace StudentASP
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(cfg =>
+            {
+                cfg.AddProfile<WebMappingProfile>();
+                cfg.AddProfile<DataAccessMappingProfile>();
+            });
+
             services.AddDbContext<StudentAppDbContext>(options => options
                 .UseSqlServer(_confString.GetConnectionString("DefaultConnection")));
+
             services.AddMvc();
             services.AddControllersWithViews();
             services.AddTransient<IStudentsRepository, StudentsRepository>();

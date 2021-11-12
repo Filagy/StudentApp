@@ -7,14 +7,13 @@ namespace StudentASP.Web.Controllers
     public class StudentsController : Controller
     {
         private readonly IStudentsRepository _allStudents;
-        private readonly IStudentsRepository _badStudents;
 
         public StudentsController(IStudentsRepository allStudents)
         {
             _allStudents = allStudents;
         }
 
-        public ViewResult GetAllStudents()
+        public async Task<IActionResult> GetAllStudents()
         {
 
             return View();
