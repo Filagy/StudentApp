@@ -8,6 +8,9 @@ namespace StudentASP.DataAccess.MSSQL
         public DataAccessMappingProfile()
         {
             CreateMap<Domain.Models.Student, Entities.Student>().ReverseMap();
+            CreateMap<Domain.Models.Score, Entities.Score>().ReverseMap();
+            CreateMap<Domain.Models.Teacher, Entities.Teacher>().ReverseMap();
+            CreateMap<Domain.Models.Subject, Entities.Subject>().ReverseMap();
         }
     }
 }

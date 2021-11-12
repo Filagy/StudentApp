@@ -24,9 +24,15 @@ namespace StudentASP.DataAccess.MSSQL.Repository
 
         public async Task<List<Student>> GetAllStudentsAsync()
         {
-            var students = await _studentAppDbContext.Students.ToListAsync();
-            var result = _mapper.Map<List<Entities.Student>, List<Student>>(students);
-            return result;
+            var students = 
+                await _studentAppDbContext.Students
+                .Include("Scores")
+                .Include("TeacherClassroom")
+                .Include("Subjects")
+                .ToListAsync();
+
+            return 
+                _mapper.Map<List<Entities.Student>, List<Student>>(students);
         }
     }
 }
