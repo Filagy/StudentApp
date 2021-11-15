@@ -11,6 +11,7 @@ namespace StudentASP.DataAccess.MSSQL
             CreateMap<Domain.Models.Score, Entities.Score>().ReverseMap();
             CreateMap<Domain.Models.Teacher, Entities.Teacher>().ReverseMap();
             CreateMap<Domain.Models.Subject, Entities.Subject>().ReverseMap();
+            CreateMap<Domain.Models.Group, Entities.Group>().ReverseMap();
         }
     }
 }

@@ -11,10 +11,12 @@ namespace StudentASP.DataAccess.MSSQL
         public DbSet<Score> Scores { get; set; }
         public DbSet<Subject> Subjects { get; set; }
 
-        public StudentAppDbContext(DbContextOptions<StudentAppDbContext> options) : base(options)
+        public StudentAppDbContext(DbContextOptions<StudentAppDbContext> options) 
+            : base(options)
         {
 
         }
+
 
     }
 }

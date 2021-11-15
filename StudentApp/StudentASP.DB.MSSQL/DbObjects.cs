@@ -7,7 +7,11 @@ namespace StudentASP.DataAccess.MSSQL
 {
     public class DbObjects
     {
-        private const string _PATH_TEACHERS = @"Teachers.txt";
+        private const int TEACHERS_COUNT = 5;
+        private const int STUDENTS_COUNT = 5;
+        private const int SCORES_COUNT = 5;
+        private const int SUBJECTS_COUNT = 5;
+
         private static List<Teacher> _teachers;
         private static List<Student> _students;
         private static List<Subject> _subjects = new List<Subject>();
@@ -22,88 +26,37 @@ namespace StudentASP.DataAccess.MSSQL
 
         public static void Initial(StudentAppDbContext context)
         {
+            _context = context;
 
-            if (!context.Teachers.Any())
+            //if (!context.Students.Any())
+            //{
+            //    AddRandomTeachers();
+            //    AddTeachers(context);
+            //    context.Teachers.AddRange(_teachers);
+            //    context.SaveChanges();
+            //}
+
+           
+
+        }
+
+        private static void AddRandomTeachers()
+        {
+            var rand = new Random();
+            string teacherFirstName = string.Empty;
+            string teacherLastName = string.Empty;
+            int countForTeacherName = default;
+
+            for (int i = 0; i < TEACHERS_COUNT; i++)
             {
-                AddTeachers(context);
-                context.Teachers.AddRange(_teachers);
-                context.SaveChanges();
+
             }
 
-            if (!context.Subjects.Any())
-            {
-                AddSubjects(context);
-                context.Subjects.AddRange(_subjects);
-                context.SaveChanges();
-            }
-
-            if (!context.Students.Any())
-            {
-
-                AddStudents(context);
-
-                context.Students.AddRange(_students);
-                context.SaveChanges();
-            }
-
-            if (!context.Scores.Any())
-            {
-                AddScores(context);
-                context.Scores.AddRange(_scores);
-                context.SaveChanges();
-            }
 
         }
 
         private static void AddStudents(StudentAppDbContext context)
         {
-            var student1 = new Student()
-            {
-                FirstName = "Oleg",
-                LastName = "Reutov",
-                NumberGroup = 233,
-                TeacherClassroom = context.Teachers.FirstOrDefault(x => x.LastName == "Grezin")
-            };
-
-            var student2 = new Student()
-            {
-                FirstName = "Alexey",
-                LastName = "Minin",
-                NumberGroup = 234,
-                TeacherClassroom = context.Teachers.FirstOrDefault(x => x.LastName == "Midneva")
-            };
-
-
-            var student3 = new Student()
-            {
-                FirstName = "Sergey",
-                LastName = "Silov",
-                NumberGroup = 233,
-                TeacherClassroom = context.Teachers.FirstOrDefault(x => x.LastName == "Grezin")
-            };
-            var student4 = new Student()
-            {
-                FirstName = "Fedor",
-                LastName = "Zorin",
-                NumberGroup = 234,
-                TeacherClassroom = context.Teachers.FirstOrDefault(x => x.LastName == "Midneva")
-            };
-            var student5 = new Student()
-            {
-                FirstName = "Nika",
-                LastName = "Savinova",
-                NumberGroup = 233,
-                TeacherClassroom = context.Teachers.FirstOrDefault(x => x.LastName == "Grezin")
-            };
-            var student6 = new Student()
-            {
-                FirstName = "Mariya",
-                LastName = "Domina",
-                NumberGroup = 234,
-                TeacherClassroom = context.Teachers.FirstOrDefault(x => x.LastName == "Midneva")
-            };
-            _students = new List<Student>()
-            {student1, student2, student3, student4, student5, student6 };
         }
 
         private static void AddScores(StudentAppDbContext context)
