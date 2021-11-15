@@ -18,6 +18,5 @@ namespace StudentASP.DataAccess.MSSQL
 
         }
 
-
     }
 }

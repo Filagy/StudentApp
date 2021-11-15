@@ -74,7 +74,7 @@ namespace StudentASP.Web
                 //    pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Students}/{action=list}");
+                    pattern: "{controller=Students}/{action=GetAllStudents}");
 
             });
         }

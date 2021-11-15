@@ -28,22 +28,45 @@ namespace StudentASP.DataAccess.MSSQL
         {
             _context = context;
 
-            if (!_context.Students.Any())
+            
+
+            if (_context.Teachers.Any() == false)
             {
                 AddRandomTeachers();
-                AddRandomGroups();
-                AddRandomSubjects();
-                AddRandomStudents();
-                AddRandomScores();
-
                 _context.Teachers.AddRange(_teachers);
-                _context.Groups.AddRange(_groups);
-                _context.Subjects.AddRange(_subjects);
-                _context.Students.AddRange(_students);
-                _context.Scores.AddRange(_scores);
+                _context.SaveChanges();
+            }
 
+
+            if (_context.Groups.Any() == false)
+            {
+                AddRandomGroups();
+                _context.Groups.AddRange(_groups);
+                _context.SaveChanges();
+            }
+
+            if (_context.Subjects.Any() == false)
+            {
+                AddRandomSubjects();
+                _context.Subjects.AddRange(_subjects);
+                _context.SaveChanges();
+            }
+
+            if (_context.Students.Any() == false)
+            {
+                AddRandomTeachers();
+                _context.Teachers.AddRange(_teachers);
+                context.SaveChanges();
+                var teachers = _context.Teachers.ToList();
+            }
+
+            if (_context.Scores.Any() == false)
+            {
+                AddRandomScores();
+                context.Scores.AddRange(_scores);
                 context.SaveChanges();
             }
+
 
 
 
@@ -53,45 +76,53 @@ namespace StudentASP.DataAccess.MSSQL
         {
             string teacherName = "Teacher";
             int countForTeacherName = 1;
+            int teacherId = 1;
 
-            for (int i = 0; i <= TEACHERS_COUNT; i++)
+            for (int i = 0; i < TEACHERS_COUNT; i++)
             {
                 var teacher = new Teacher()
                 {
-                    Id = ++i,
                     FirstName = teacherName + countForTeacherName.ToString(),
                     LastName = teacherName + countForTeacherName.ToString(),
                 };
                 _teachers.Add(teacher);
+                teacherId++;
                 countForTeacherName++;
             }
         }
 
         private static void AddRandomGroups()
         {
-            for (int i = 0; i <= TEACHERS_COUNT; i++)
+            int id = 1;
+            for (int i = 0; i < TEACHERS_COUNT; i++)
             {
                 var group = new Group()
                 {
-                    Id = ++i,
                     NumberGroup = _numbersGroups[i],
-                    TeacherClassroomId = ++i
+                    TeacherClassroomId = _context.Teachers.FirstOrDefault(x => x.Id == id).Id
                 };
+                id++;
+                _groups.Add(group);
             }
         }
 
         private static void AddRandomSubjects()
         {
-            var rand = new Random();
             var titleValues = Enum.GetValues(typeof(TitleSubject));
-
+            
             for (int i = 0; i < SUBJECTS_COUNT; i++)
             {
+                var count = 1;
+                var teacherName = "Teacher" + count.ToString();
+                var title = (TitleSubject)titleValues.GetValue(count);
+
                 var subject = new Subject()
                 {
-                    Title = (TitleSubject)titleValues.GetValue(rand.Next(1, titleValues.Length)),
-                    TeacherId = ++i
+                    Title = title,
+                    TeacherId = _context.Teachers.FirstOrDefault(x=>x.FirstName == teacherName).Id
                 };
+                _subjects.Add(subject);
+                count++;
             }
         }
 
@@ -103,12 +134,13 @@ namespace StudentASP.DataAccess.MSSQL
 
             for (int i = 0; i < STUDENTS_COUNT; i++)
             {
+                var numberGroup = rand.Next(133, 137);
                 var student = new Student()
                 {
                     FirstName = studentName + countForStudent.ToString(),
                     LastName = studentName + countForStudent.ToString(),
-                    GroupId = rand.Next(0,_groups.Count),
-                    Subjects = _subjects
+                    GroupId = _context.Groups.FirstOrDefault(x => x.NumberGroup == numberGroup).Id,
+                    Subjects = _context.Subjects.ToList()
                 };
                 countForStudent++;
                 _students.Add(student);
@@ -118,28 +150,30 @@ namespace StudentASP.DataAccess.MSSQL
         private static void AddRandomScores()
         {
             var rand = new Random();
-            
-            foreach (var student in _students)
+            var scoreId = 1;
+
+            foreach (var student in _context.Students)
             {
-                foreach (var subject in student.Subjects)
+                foreach (var subject in _context.Subjects)
                 {
                     for (int i = 0; i < SCORES_COUNT_FOR_SUBJECT; i++)
                     {
                         var monthForScore = rand.Next(1, 12);
                         var dayForScore = rand.Next(1, 28);
+
                         var score = new Score()
                         {
-                            Id = ++i,
                             Value = rand.Next(2, 5),
                             Date = DateTime.Parse($"2021-{monthForScore}-{dayForScore}"),
-                            SubjectId = subject.Id,
-                            StudentId = student.Id
+                            SubjectId = _context.Subjects.FirstOrDefault(x=>x.Id == subject.Id).Id,
+                            StudentId = _context.Students.FirstOrDefault(x=>x.Id == student.Id).Id
                         };
+                        scoreId++;
                         _scores.Add(score);
                     }
                 }
             }
         }
-     
+
     }
 }
