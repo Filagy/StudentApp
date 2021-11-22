@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace StudentASP.Web.Controllers
 {
+    
     public class StudentsController : Controller
     {
         private readonly IStudentRepository _studentRepository;
@@ -16,8 +17,9 @@ namespace StudentASP.Web.Controllers
             _studentRepository = studentRepository;
         }
 
+        
         [HttpGet]
-        public async Task<IActionResult> GetAllStudentsAsync()
+        public async Task<IActionResult> GetAllStudents()
         {
             List<Student> students = await _studentRepository.GetAllStudentsAsync();
             return View(students);

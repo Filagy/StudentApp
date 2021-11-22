@@ -3,25 +3,40 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentASP.DataAccess.MSSQL;
 
-namespace StudentASP.Migrations
+namespace StudentASP.DataAccess.MSSQL.Migrations
 {
     [DbContext(typeof(StudentAppDbContext))]
-    [Migration("20211013112730_chengeModelConnection")]
-    partial class chengeModelConnection
+    partial class StudentAppDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.10")
+                .HasAnnotation("ProductVersion", "5.0.11")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("StudentASP.Models.Score", b =>
+            modelBuilder.Entity("StudentASP.DataAccess.MSSQL.Entities.Group", b =>
+                {
+                    b.Property<int>("NumberGroup")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("TeacherClassroomId")
+                        .HasColumnType("int");
+
+                    b.HasKey("NumberGroup");
+
+                    b.HasIndex("TeacherClassroomId");
+
+                    b.ToTable("Groups");
+                });
+
+            modelBuilder.Entity("StudentASP.DataAccess.MSSQL.Entities.Score", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -49,7 +64,7 @@ namespace StudentASP.Migrations
                     b.ToTable("Scores");
                 });
 
-            modelBuilder.Entity("StudentASP.Models.Student", b =>
+            modelBuilder.Entity("StudentASP.DataAccess.MSSQL.Entities.Student", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -65,24 +80,21 @@ namespace StudentASP.Migrations
                     b.Property<int>("NumberGroup")
                         .HasColumnType("int");
 
-                    b.Property<int>("TeacherClassroomId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("TeacherClassroomId");
+                    b.HasIndex("NumberGroup");
 
                     b.ToTable("Students");
                 });
 
-            modelBuilder.Entity("StudentASP.Models.Subject", b =>
+            modelBuilder.Entity("StudentASP.DataAccess.MSSQL.Entities.Subject", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("StudentId")
+                    b.Property<int?>("StudentId")
                         .HasColumnType("int");
 
                     b.Property<int>("TeacherId")
@@ -100,7 +112,7 @@ namespace StudentASP.Migrations
                     b.ToTable("Subjects");
                 });
 
-            modelBuilder.Entity("StudentASP.Models.Teacher", b =>
+            modelBuilder.Entity("StudentASP.DataAccess.MSSQL.Entities.Teacher", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -118,15 +130,26 @@ namespace StudentASP.Migrations
                     b.ToTable("Teachers");
                 });
 
-            modelBuilder.Entity("StudentASP.Models.Score", b =>
+            modelBuilder.Entity("StudentASP.DataAccess.MSSQL.Entities.Group", b =>
                 {
-                    b.HasOne("StudentASP.Models.Student", "Student")
+                    b.HasOne("StudentASP.DataAccess.MSSQL.Entities.Teacher", "TeacherClassroom")
+                        .WithMany("Groups")
+                        .HasForeignKey("TeacherClassroomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TeacherClassroom");
+                });
+
+            modelBuilder.Entity("StudentASP.DataAccess.MSSQL.Entities.Score", b =>
+                {
+                    b.HasOne("StudentASP.DataAccess.MSSQL.Entities.Student", "Student")
                         .WithMany("Scores")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("StudentASP.Models.Subject", "Subject")
+                    b.HasOne("StudentASP.DataAccess.MSSQL.Entities.Subject", "Subject")
                         .WithMany("Scores")
                         .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -137,51 +160,52 @@ namespace StudentASP.Migrations
                     b.Navigation("Subject");
                 });
 
-            modelBuilder.Entity("StudentASP.Models.Student", b =>
+            modelBuilder.Entity("StudentASP.DataAccess.MSSQL.Entities.Student", b =>
                 {
-                    b.HasOne("StudentASP.Models.Teacher", "TeacherClassroom")
+                    b.HasOne("StudentASP.DataAccess.MSSQL.Entities.Group", "Group")
                         .WithMany("Students")
-                        .HasForeignKey("TeacherClassroomId")
+                        .HasForeignKey("NumberGroup")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("TeacherClassroom");
+                    b.Navigation("Group");
                 });
 
-            modelBuilder.Entity("StudentASP.Models.Subject", b =>
+            modelBuilder.Entity("StudentASP.DataAccess.MSSQL.Entities.Subject", b =>
                 {
-                    b.HasOne("StudentASP.Models.Student", "Student")
+                    b.HasOne("StudentASP.DataAccess.MSSQL.Entities.Student", null)
                         .WithMany("Subjects")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("StudentId");
 
-                    b.HasOne("StudentASP.Models.Teacher", "Teacher")
+                    b.HasOne("StudentASP.DataAccess.MSSQL.Entities.Teacher", "Teacher")
                         .WithMany("Subjects")
                         .HasForeignKey("TeacherId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Student");
-
                     b.Navigation("Teacher");
                 });
 
-            modelBuilder.Entity("StudentASP.Models.Student", b =>
+            modelBuilder.Entity("StudentASP.DataAccess.MSSQL.Entities.Group", b =>
+                {
+                    b.Navigation("Students");
+                });
+
+            modelBuilder.Entity("StudentASP.DataAccess.MSSQL.Entities.Student", b =>
                 {
                     b.Navigation("Scores");
 
                     b.Navigation("Subjects");
                 });
 
-            modelBuilder.Entity("StudentASP.Models.Subject", b =>
+            modelBuilder.Entity("StudentASP.DataAccess.MSSQL.Entities.Subject", b =>
                 {
                     b.Navigation("Scores");
                 });
 
-            modelBuilder.Entity("StudentASP.Models.Teacher", b =>
+            modelBuilder.Entity("StudentASP.DataAccess.MSSQL.Entities.Teacher", b =>
                 {
-                    b.Navigation("Students");
+                    b.Navigation("Groups");
 
                     b.Navigation("Subjects");
                 });

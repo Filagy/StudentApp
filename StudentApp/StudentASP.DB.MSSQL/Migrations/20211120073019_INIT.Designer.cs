@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentASP.DataAccess.MSSQL;
 
-namespace StudentASP.Migrations
+namespace StudentASP.DataAccess.MSSQL.Migrations
 {
     [DbContext(typeof(StudentAppDbContext))]
-    [Migration("20211115103036_AddGroupInContext")]
-    partial class AddGroupInContext
+    [Migration("20211120073019_INIT")]
+    partial class INIT
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,18 +23,15 @@ namespace StudentASP.Migrations
 
             modelBuilder.Entity("StudentASP.DataAccess.MSSQL.Entities.Group", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("NumberGroup")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("NumberGroup")
-                        .HasColumnType("int");
-
                     b.Property<int>("TeacherClassroomId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("NumberGroup");
 
                     b.HasIndex("TeacherClassroomId");
 
@@ -79,15 +76,15 @@ namespace StudentASP.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("GroupId")
-                        .HasColumnType("int");
-
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("NumberGroup")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("GroupId");
+                    b.HasIndex("NumberGroup");
 
                     b.ToTable("Students");
                 });
@@ -169,7 +166,7 @@ namespace StudentASP.Migrations
                 {
                     b.HasOne("StudentASP.DataAccess.MSSQL.Entities.Group", "Group")
                         .WithMany("Students")
-                        .HasForeignKey("GroupId")
+                        .HasForeignKey("NumberGroup")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

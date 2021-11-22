@@ -6,10 +6,9 @@ namespace StudentASP.Domain.Models
 {
     public class Group
     {
-        public int Id { get; set; }
         public int NumberGroup { get; set; }
         public List<Student> Students { get; set; }
-        public Teacher TeacherClassroom { get; set; }
         public int TeacherClassroomId { get; set; }
+        public Teacher TeacherClassroom { get; set; }
     }
 }

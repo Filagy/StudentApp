@@ -1,6 +1,44 @@
-﻿.container{
-    padding: 50px 0 0 150px;
-    max-width: 850px;
+a {
+  color: #fff;
+  text-decoration: none;
 }
 
+.header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 10px;
+  background: #254277;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+}
 
+.header__section {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.header__item {
+  padding: 20px 20px;
+  font-size: 20px;
+}
+
+.header__item :hover {
+  border-radius: 8px;
+  background: #488ec7;
+  padding: 10px;
+}
+
+.headerLogo {
+  border-radius: 8px;
+  background: #488ec7;
+  font-weight: 700;
+}
+
+.headerButton {
+  cursor: pointer;
+}

@@ -36,6 +36,7 @@ namespace StudentASP.Web
             services.AddMvc();
             services.AddControllersWithViews();
             services.AddTransient<IStudentRepository, StudentRepository>();
+            services.AddTransient<IGroupsRepository, GroupRepository>();
         }
 
 
@@ -67,16 +68,8 @@ namespace StudentASP.Web
                 DbObjects.Initial(context);
             }
 
-            app.UseEndpoints(endpoints =>
-            {
-                //endpoints.MapControllerRoute(
-                //    name: "default",
-                //    pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Students}/{action=GetAllStudents}");
-
-            });
+            app.UseEndpoints(endpoint =>
+            endpoint.MapControllers());
         }
     }
 }

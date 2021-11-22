@@ -1,4 +1,5 @@
-﻿using StudentASP.DataAccess.MSSQL.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using StudentASP.DataAccess.MSSQL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,8 +42,12 @@ namespace StudentASP.DataAccess.MSSQL
             if (_context.Groups.Any() == false)
             {
                 AddRandomGroups();
+                
+                _context.Database.ExecuteSqlInterpolated($"SET IDENTITY_INSERT Groups ON;");
                 _context.Groups.AddRange(_groups);
                 _context.SaveChanges();
+                _context.Database.ExecuteSqlInterpolated($"SET IDENTITY_INSERT Groups OFF;");
+                
             }
 
             if (_context.Subjects.Any() == false)
@@ -83,7 +88,7 @@ namespace StudentASP.DataAccess.MSSQL
                 var teacher = new Teacher()
                 {
                     FirstName = teacherName + countForTeacherName.ToString(),
-                    LastName = teacherName + countForTeacherName.ToString(),
+                    LastName = teacherName + countForTeacherName.ToString()
                 };
                 _teachers.Add(teacher);
                 teacherId++;
@@ -139,7 +144,7 @@ namespace StudentASP.DataAccess.MSSQL
                 {
                     FirstName = studentName + countForStudent.ToString(),
                     LastName = studentName + countForStudent.ToString(),
-                    GroupId = _context.Groups.FirstOrDefault(x => x.NumberGroup == numberGroup).Id,
+                    NumberGroup = numberGroup,
                     Subjects = _context.Subjects.ToList()
                 };
                 countForStudent++;
