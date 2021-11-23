@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace StudentASP.DataAccess.MSSQL.Migrations
 {
-    public partial class INIT : Migration
+    public partial class InitDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -145,7 +145,13 @@ namespace StudentASP.DataAccess.MSSQL.Migrations
                 name: "IX_Subjects_TeacherId",
                 table: "Subjects",
                 column: "TeacherId");
+
+            //InitObjects
+
+           
+
         }
+
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {

@@ -61,13 +61,6 @@ namespace StudentASP.Web
             //app.UseMvcWithDefaultRoute();
 
 
-            using (var scope = app.ApplicationServices.CreateScope())
-            {
-                var context = scope.ServiceProvider.GetRequiredService<StudentAppDbContext>();
-
-                DbObjects.Initial(context);
-            }
-
             app.UseEndpoints(endpoint =>
             endpoint.MapControllers());
         }

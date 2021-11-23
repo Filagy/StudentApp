@@ -17,7 +17,8 @@ namespace StudentASP.Web.Controllers
             _studentRepository = studentRepository;
         }
 
-        
+        [Route("")]
+        [Route("AllStudents")]
         [HttpGet]
         public async Task<IActionResult> GetAllStudents()
         {

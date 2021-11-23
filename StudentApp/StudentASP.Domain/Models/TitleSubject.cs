@@ -4,8 +4,6 @@
     {
         History,
         Math,
-        Geography,
-        English,
-        Biology
+        Geography
     }
 }

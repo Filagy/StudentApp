@@ -10,8 +10,8 @@ using StudentASP.DataAccess.MSSQL;
 namespace StudentASP.DataAccess.MSSQL.Migrations
 {
     [DbContext(typeof(StudentAppDbContext))]
-    [Migration("20211120073019_INIT")]
-    partial class INIT
+    [Migration("20211120073019_InitDB")]
+    partial class InitDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

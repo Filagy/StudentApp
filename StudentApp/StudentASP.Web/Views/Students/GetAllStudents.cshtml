@@ -19,11 +19,11 @@
         @foreach (Student student in Model)
         {
             <tr>
-                @*<th scope="row">@student.FirstName</th>
+                <th scope="row">@student.FirstName</th>
                 <th>@student.LastName</th>
                 <th>@student.Group.NumberGroup</th>
                 <th>@student.Group.TeacherClassroom.LastName</th>
-                <th>@student.Scores.Average(x=>x.Value)</th>*@
+                <th>@student.Scores.Average(x=>x.Value).ToString("#.#")</th>
             </tr>
         }
 

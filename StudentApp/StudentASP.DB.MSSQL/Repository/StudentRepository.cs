@@ -27,7 +27,7 @@ namespace StudentASP.DataAccess.MSSQL.Repository
             var students = 
                 await _studentAppDbContext.Students
                 .Include(x=>x.Scores)
-                //.Include(x=>x.Group.TeacherClassroom)
+                .Include(x => x.Group.TeacherClassroom)
                 .ToListAsync();
 
             return 

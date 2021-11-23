@@ -26,9 +26,9 @@ namespace StudentASP.DataAccess.MSSQL.Repository
         public async Task<List<Group>> GetGroupsAsync()
         {
             var groups = await _studentAppDbContext.Groups
-                //.Include(x=>x.TeacherClassroom)
-                //.Include(x=>x.Students)
-                //.ThenInclude(x=>x.Scores)
+                .Include(x => x.TeacherClassroom)
+                .Include(x => x.Students)
+                .ThenInclude(x => x.Scores)
                 .ToListAsync();
 
             return _mapper.Map<List<Entities.Group>, List<Group>>(groups);

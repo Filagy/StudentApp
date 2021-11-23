@@ -42,11 +42,13 @@ namespace StudentASP.DataAccess.MSSQL
             if (_context.Groups.Any() == false)
             {
                 AddRandomGroups();
+                var transaction = _context.Database.BeginTransaction();
                 
                 _context.Database.ExecuteSqlInterpolated($"SET IDENTITY_INSERT Groups ON;");
                 _context.Groups.AddRange(_groups);
                 _context.SaveChanges();
                 _context.Database.ExecuteSqlInterpolated($"SET IDENTITY_INSERT Groups OFF;");
+                transaction.Commit();
                 
             }
 

@@ -15,8 +15,7 @@ namespace StudentASP.DataAccess.MSSQL
         public StudentAppDbContext(DbContextOptions<StudentAppDbContext> options) 
             : base(options)
         {
-
+            
         }
-
     }
 }

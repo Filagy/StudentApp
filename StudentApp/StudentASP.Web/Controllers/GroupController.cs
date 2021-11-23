@@ -18,7 +18,7 @@ namespace StudentASP.Web.Controllers
             _groupsRepository = groupsRepository;
         }
 
-        [Route("GetAllGroups")]
+        [Route("AllGroups")]
         [HttpGet]
         public async Task<IActionResult> GetGroups()
         {
