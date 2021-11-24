@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using StudentASP.DataAccess.MSSQL.Entities;
+﻿using StudentASP.DataAccess.MSSQL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,18 +7,14 @@ namespace StudentASP.DataAccess.MSSQL
 {
     public class DbObjects
     {
-        private const int TEACHERS_COUNT = 5;
-        private const int STUDENTS_COUNT = 100;
-        private const int SCORES_COUNT_FOR_SUBJECT = 5;
-        private const int SUBJECTS_COUNT = 5;
-
-        private static int[] _numbersGroups = { 133, 134, 135, 136, 137 };
-
-        private static List<Teacher> _teachers = new List<Teacher>();
-        private static List<Group> _groups = new List<Group>();
-        private static List<Student> _students = new List<Student>();
+        private const string _PATH_TEACHERS = @"Teachers.txt";
+        private static List<Teacher> _teachers;
+        private static List<Student> _students;
         private static List<Subject> _subjects = new List<Subject>();
-        private static List<Score> _scores = new List<Score>();
+
+        private static List<Score> _scores;
+        private static List<Score> _goodScores;
+        private static List<Score> _badScores;
 
         private static StudentAppDbContext _context;
 
@@ -27,160 +22,189 @@ namespace StudentASP.DataAccess.MSSQL
 
         public static void Initial(StudentAppDbContext context)
         {
-            _context = context;
 
-            
-
-            if (_context.Teachers.Any() == false)
+            if (!context.Teachers.Any())
             {
-                AddRandomTeachers();
-                _context.Teachers.AddRange(_teachers);
-                _context.SaveChanges();
-            }
-
-
-            if (_context.Groups.Any() == false)
-            {
-                AddRandomGroups();
-                var transaction = _context.Database.BeginTransaction();
-                
-                _context.Database.ExecuteSqlInterpolated($"SET IDENTITY_INSERT Groups ON;");
-                _context.Groups.AddRange(_groups);
-                _context.SaveChanges();
-                _context.Database.ExecuteSqlInterpolated($"SET IDENTITY_INSERT Groups OFF;");
-                transaction.Commit();
-                
-            }
-
-            if (_context.Subjects.Any() == false)
-            {
-                AddRandomSubjects();
-                _context.Subjects.AddRange(_subjects);
-                _context.SaveChanges();
-            }
-
-            if (_context.Students.Any() == false)
-            {
-                AddRandomTeachers();
-                _context.Teachers.AddRange(_teachers);
+                AddTeachers(context);
+                context.Teachers.AddRange(_teachers);
                 context.SaveChanges();
-                var teachers = _context.Teachers.ToList();
             }
 
-            if (_context.Scores.Any() == false)
+            if (!context.Subjects.Any())
             {
-                AddRandomScores();
+                AddSubjects(context);
+                context.Subjects.AddRange(_subjects);
+                context.SaveChanges();
+            }
+
+            if (!context.Students.Any())
+            {
+
+                AddStudents(context);
+
+                context.Students.AddRange(_students);
+                context.SaveChanges();
+            }
+
+            if (!context.Scores.Any())
+            {
+                AddScores(context);
                 context.Scores.AddRange(_scores);
                 context.SaveChanges();
             }
 
-
-
-
         }
 
-        private static void AddRandomTeachers()
+        private static void AddStudents(StudentAppDbContext context)
         {
-            string teacherName = "Teacher";
-            int countForTeacherName = 1;
-            int teacherId = 1;
-
-            for (int i = 0; i < TEACHERS_COUNT; i++)
+            var student1 = new Student()
             {
-                var teacher = new Teacher()
-                {
-                    FirstName = teacherName + countForTeacherName.ToString(),
-                    LastName = teacherName + countForTeacherName.ToString()
-                };
-                _teachers.Add(teacher);
-                teacherId++;
-                countForTeacherName++;
-            }
+                FirstName = "Oleg",
+                LastName = "Reutov",
+                NumberGroup = 233,
+                TeacherClassroom = context.Teachers.FirstOrDefault(x => x.LastName == "Grezin")
+            };
+
+            var student2 = new Student()
+            {
+                FirstName = "Alexey",
+                LastName = "Minin",
+                NumberGroup = 234,
+                TeacherClassroom = context.Teachers.FirstOrDefault(x => x.LastName == "Midneva")
+            };
+
+
+            var student3 = new Student()
+            {
+                FirstName = "Sergey",
+                LastName = "Silov",
+                NumberGroup = 233,
+                TeacherClassroom = context.Teachers.FirstOrDefault(x => x.LastName == "Grezin")
+            };
+            var student4 = new Student()
+            {
+                FirstName = "Fedor",
+                LastName = "Zorin",
+                NumberGroup = 234,
+                TeacherClassroom = context.Teachers.FirstOrDefault(x => x.LastName == "Midneva")
+            };
+            var student5 = new Student()
+            {
+                FirstName = "Nika",
+                LastName = "Savinova",
+                NumberGroup = 233,
+                TeacherClassroom = context.Teachers.FirstOrDefault(x => x.LastName == "Grezin")
+            };
+            var student6 = new Student()
+            {
+                FirstName = "Mariya",
+                LastName = "Domina",
+                NumberGroup = 234,
+                TeacherClassroom = context.Teachers.FirstOrDefault(x => x.LastName == "Midneva")
+            };
+            _students = new List<Student>()
+            {student1, student2, student3, student4, student5, student6 };
         }
 
-        private static void AddRandomGroups()
+        private static void AddScores(StudentAppDbContext context)
         {
-            int id = 1;
-            for (int i = 0; i < TEACHERS_COUNT; i++)
-            {
-                var group = new Group()
-                {
-                    NumberGroup = _numbersGroups[i],
-                    TeacherClassroomId = _context.Teachers.FirstOrDefault(x => x.Id == id).Id
-                };
-                id++;
-                _groups.Add(group);
-            }
-        }
+            #region RandomScores
+            var scoresList = new List<Score>();
+            var rand = new Random();
+            var StudIddict = new Dictionary<int, int>();
+            var subjectIdDict = new Dictionary<int, int>();
+            int count = 1;
 
-        private static void AddRandomSubjects()
-        {
-            var titleValues = Enum.GetValues(typeof(TitleSubject));
-            
-            for (int i = 0; i < SUBJECTS_COUNT; i++)
+            foreach (var student in context.Students.ToList())
             {
-                var count = 1;
-                var teacherName = "Teacher" + count.ToString();
-                var title = (TitleSubject)titleValues.GetValue(count);
-
-                var subject = new Subject()
-                {
-                    Title = title,
-                    TeacherId = _context.Teachers.FirstOrDefault(x=>x.FirstName == teacherName).Id
-                };
-                _subjects.Add(subject);
+                StudIddict.Add(count, student.Id);
                 count++;
             }
-        }
-
-        private static void AddRandomStudents()
-        {
-            var studentName = "Student";
-            var countForStudent = 1;
-            var rand = new Random();
-
-            for (int i = 0; i < STUDENTS_COUNT; i++)
+            count = 1;
+            foreach (var subject in context.Subjects.ToList())
             {
-                var numberGroup = rand.Next(133, 137);
-                var student = new Student()
+                subjectIdDict.Add(count, subject.Id);
+                count++;
+            }
+
+            var enumValues = Enum.GetValues(typeof(TitleSubject));
+
+            for (int i = 0; i <= 10; i++)
+            {
+                var title = (TitleSubject)enumValues.GetValue(rand.Next(1, enumValues.Length));
+                var studentId = StudIddict[rand.Next(1, 6)];
+                var subjectId = subjectIdDict[rand.Next(1, subjectIdDict.Values.Count)];
+                var score = new Score()
                 {
-                    FirstName = studentName + countForStudent.ToString(),
-                    LastName = studentName + countForStudent.ToString(),
-                    NumberGroup = numberGroup,
-                    Subjects = _context.Subjects.ToList()
+
+                    Value = rand.Next(2, 5),
+                    Date = new DateTime(2021, rand.Next(1, 12), rand.Next(1, 28)),
+                    SubjectId = subjectId,
+                    StudentId = studentId
                 };
-                countForStudent++;
-                _students.Add(student);
+                scoresList.Add(score);
             }
+            _scores = scoresList;
+            #endregion
+
+
         }
 
-        private static void AddRandomScores()
+        private static void AddSubjects(StudentAppDbContext context)
         {
-            var rand = new Random();
-            var scoreId = 1;
-
-            foreach (var student in _context.Students)
+            var history = new Subject()
             {
-                foreach (var subject in _context.Subjects)
-                {
-                    for (int i = 0; i < SCORES_COUNT_FOR_SUBJECT; i++)
-                    {
-                        var monthForScore = rand.Next(1, 12);
-                        var dayForScore = rand.Next(1, 28);
+                Title = TitleSubject.History,
+                Teacher = context.Teachers.FirstOrDefault(x => x.LastName == "Grezin")
+            };
+            _subjects.Add(history);
 
-                        var score = new Score()
-                        {
-                            Value = rand.Next(2, 5),
-                            Date = DateTime.Parse($"2021-{monthForScore}-{dayForScore}"),
-                            SubjectId = _context.Subjects.FirstOrDefault(x=>x.Id == subject.Id).Id,
-                            StudentId = _context.Students.FirstOrDefault(x=>x.Id == student.Id).Id
-                        };
-                        scoreId++;
-                        _scores.Add(score);
-                    }
-                }
-            }
+            var eng = new Subject()
+            {
+                Title = TitleSubject.English,
+                Teacher = context.Teachers.FirstOrDefault(x => x.LastName == "Midneva")
+            };
+            _subjects.Add(eng);
+
+            var geo = new Subject()
+            {
+                Title = TitleSubject.Geography,
+                Teacher = context.Teachers.FirstOrDefault(x => x.LastName == "Volkova")
+            };
+            _subjects.Add(geo);
+
+            var bio = new Subject()
+            {
+                Title = TitleSubject.Biology,
+                Teacher = context.Teachers.FirstOrDefault(x => x.LastName == "Grezin")
+            };
+            _subjects.Add(bio);
         }
 
+        private static void AddTeachers(StudentAppDbContext context)
+        {
+            var teacher1 = new Teacher()
+            {
+                FirstName = "Ludmila",
+                LastName = "Midneva"
+            };
+
+            var teacher2 = new Teacher()
+            {
+                FirstName = "Victoria",
+                LastName = "Volkova"
+            };
+
+            var teacher3 = new Teacher()
+            {
+                FirstName = "Vladimir",
+                LastName = "Grezin"
+            };
+
+
+            _teachers = new List<Teacher>() { teacher1, teacher2, teacher3 };
+
+
+        }
     }
 }

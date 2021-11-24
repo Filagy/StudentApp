@@ -7,38 +7,21 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentASP.DataAccess.MSSQL;
 
-namespace StudentASP.DataAccess.MSSQL.Migrations
+namespace StudentASP.Migrations
 {
     [DbContext(typeof(StudentAppDbContext))]
-    [Migration("20211120073019_InitDB")]
-    partial class InitDB
+    [Migration("20211013112730_chengeModelConnection")]
+    partial class chengeModelConnection
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.11")
+                .HasAnnotation("ProductVersion", "5.0.10")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("StudentASP.DataAccess.MSSQL.Entities.Group", b =>
-                {
-                    b.Property<int>("NumberGroup")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("TeacherClassroomId")
-                        .HasColumnType("int");
-
-                    b.HasKey("NumberGroup");
-
-                    b.HasIndex("TeacherClassroomId");
-
-                    b.ToTable("Groups");
-                });
-
-            modelBuilder.Entity("StudentASP.DataAccess.MSSQL.Entities.Score", b =>
+            modelBuilder.Entity("StudentASP.Models.Score", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -66,7 +49,7 @@ namespace StudentASP.DataAccess.MSSQL.Migrations
                     b.ToTable("Scores");
                 });
 
-            modelBuilder.Entity("StudentASP.DataAccess.MSSQL.Entities.Student", b =>
+            modelBuilder.Entity("StudentASP.Models.Student", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -82,21 +65,24 @@ namespace StudentASP.DataAccess.MSSQL.Migrations
                     b.Property<int>("NumberGroup")
                         .HasColumnType("int");
 
+                    b.Property<int>("TeacherClassroomId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("NumberGroup");
+                    b.HasIndex("TeacherClassroomId");
 
                     b.ToTable("Students");
                 });
 
-            modelBuilder.Entity("StudentASP.DataAccess.MSSQL.Entities.Subject", b =>
+            modelBuilder.Entity("StudentASP.Models.Subject", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("StudentId")
+                    b.Property<int>("StudentId")
                         .HasColumnType("int");
 
                     b.Property<int>("TeacherId")
@@ -114,7 +100,7 @@ namespace StudentASP.DataAccess.MSSQL.Migrations
                     b.ToTable("Subjects");
                 });
 
-            modelBuilder.Entity("StudentASP.DataAccess.MSSQL.Entities.Teacher", b =>
+            modelBuilder.Entity("StudentASP.Models.Teacher", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -132,26 +118,15 @@ namespace StudentASP.DataAccess.MSSQL.Migrations
                     b.ToTable("Teachers");
                 });
 
-            modelBuilder.Entity("StudentASP.DataAccess.MSSQL.Entities.Group", b =>
+            modelBuilder.Entity("StudentASP.Models.Score", b =>
                 {
-                    b.HasOne("StudentASP.DataAccess.MSSQL.Entities.Teacher", "TeacherClassroom")
-                        .WithMany("Groups")
-                        .HasForeignKey("TeacherClassroomId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("TeacherClassroom");
-                });
-
-            modelBuilder.Entity("StudentASP.DataAccess.MSSQL.Entities.Score", b =>
-                {
-                    b.HasOne("StudentASP.DataAccess.MSSQL.Entities.Student", "Student")
+                    b.HasOne("StudentASP.Models.Student", "Student")
                         .WithMany("Scores")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("StudentASP.DataAccess.MSSQL.Entities.Subject", "Subject")
+                    b.HasOne("StudentASP.Models.Subject", "Subject")
                         .WithMany("Scores")
                         .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -162,52 +137,51 @@ namespace StudentASP.DataAccess.MSSQL.Migrations
                     b.Navigation("Subject");
                 });
 
-            modelBuilder.Entity("StudentASP.DataAccess.MSSQL.Entities.Student", b =>
+            modelBuilder.Entity("StudentASP.Models.Student", b =>
                 {
-                    b.HasOne("StudentASP.DataAccess.MSSQL.Entities.Group", "Group")
+                    b.HasOne("StudentASP.Models.Teacher", "TeacherClassroom")
                         .WithMany("Students")
-                        .HasForeignKey("NumberGroup")
+                        .HasForeignKey("TeacherClassroomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Group");
+                    b.Navigation("TeacherClassroom");
                 });
 
-            modelBuilder.Entity("StudentASP.DataAccess.MSSQL.Entities.Subject", b =>
+            modelBuilder.Entity("StudentASP.Models.Subject", b =>
                 {
-                    b.HasOne("StudentASP.DataAccess.MSSQL.Entities.Student", null)
+                    b.HasOne("StudentASP.Models.Student", "Student")
                         .WithMany("Subjects")
-                        .HasForeignKey("StudentId");
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("StudentASP.DataAccess.MSSQL.Entities.Teacher", "Teacher")
+                    b.HasOne("StudentASP.Models.Teacher", "Teacher")
                         .WithMany("Subjects")
                         .HasForeignKey("TeacherId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Student");
+
                     b.Navigation("Teacher");
                 });
 
-            modelBuilder.Entity("StudentASP.DataAccess.MSSQL.Entities.Group", b =>
-                {
-                    b.Navigation("Students");
-                });
-
-            modelBuilder.Entity("StudentASP.DataAccess.MSSQL.Entities.Student", b =>
+            modelBuilder.Entity("StudentASP.Models.Student", b =>
                 {
                     b.Navigation("Scores");
 
                     b.Navigation("Subjects");
                 });
 
-            modelBuilder.Entity("StudentASP.DataAccess.MSSQL.Entities.Subject", b =>
+            modelBuilder.Entity("StudentASP.Models.Subject", b =>
                 {
                     b.Navigation("Scores");
                 });
 
-            modelBuilder.Entity("StudentASP.DataAccess.MSSQL.Entities.Teacher", b =>
+            modelBuilder.Entity("StudentASP.Models.Teacher", b =>
                 {
-                    b.Navigation("Groups");
+                    b.Navigation("Students");
 
                     b.Navigation("Subjects");
                 });
