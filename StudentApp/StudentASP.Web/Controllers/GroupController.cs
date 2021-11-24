@@ -4,11 +4,13 @@ using StudentASP.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace StudentASP.Web.Controllers
 {
-    
+    [ApiController]
+    [Route("[controller]")]
     public class GroupController : Controller
     {
         private readonly IGroupsRepository _groupsRepository;
@@ -18,13 +20,15 @@ namespace StudentASP.Web.Controllers
             _groupsRepository = groupsRepository;
         }
 
-        [Route("AllGroups")]
+        
         [HttpGet]
+        [ProducesResponseType(typeof(List<Group>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetGroups()
         {
             List<Group> groups = await _groupsRepository.GetGroupsAsync();
 
             return View(groups);
+            //return Ok(groups);
         }
     }
 }
