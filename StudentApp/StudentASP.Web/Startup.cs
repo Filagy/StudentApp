@@ -9,7 +9,7 @@ using StudentASP.DataAccess.MSSQL;
 using StudentASP.DataAccess.MSSQL.Repository;
 using StudentASP.Domain.Interfaces;
 
-namespace StudentASP.Web
+namespace StudentASP
 {
     public class Startup
     {
@@ -24,19 +24,11 @@ namespace StudentASP.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAutoMapper(cfg =>
-            {
-                cfg.AddProfile<WebMappingProfile>();
-                cfg.AddProfile<DataAccessMappingProfile>();
-            });
-
             services.AddDbContext<StudentAppDbContext>(options => options
                 .UseSqlServer(_confString.GetConnectionString("DefaultConnection")));
-
             services.AddMvc();
             services.AddControllersWithViews();
-            services.AddTransient<IStudentRepository, StudentRepository>();
-            services.AddTransient<IGroupsRepository, GroupRepository>();
+            services.AddTransient<IStudentsRepository, StudentsRepository>();
         }
 
 
@@ -59,10 +51,29 @@ namespace StudentASP.Web
 
             app.UseAuthorization();
             //app.UseMvcWithDefaultRoute();
+            
 
+            using(var scope = app.ApplicationServices.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<StudentAppDbContext>();
+                
+                DbObjects.Initial(context);
+            }
 
-            app.UseEndpoints(endpoint =>
-            endpoint.MapControllers());
+            app.UseEndpoints(endpoints =>
+            {
+                //endpoints.MapControllerRoute(
+                //    name: "default",
+                //    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Student}/{action=AllStudents}");
+
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Student}/{action=BadStudents}");
+
+            });
         }
     }
 }

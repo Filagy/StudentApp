@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace StudentASP.DataAccess.MSSQL.Migrations
+namespace StudentASP.Migrations
 {
-    public partial class InitDB : Migration
+    public partial class chengeModelConnection : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -22,31 +22,13 @@ namespace StudentASP.DataAccess.MSSQL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Groups",
-                columns: table => new
-                {
-                    NumberGroup = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TeacherClassroomId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Groups", x => x.NumberGroup);
-                    table.ForeignKey(
-                        name: "FK_Groups_Teachers_TeacherClassroomId",
-                        column: x => x.TeacherClassroomId,
-                        principalTable: "Teachers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Students",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NumberGroup = table.Column<int>(type: "int", nullable: false),
+                    TeacherClassroomId = table.Column<int>(type: "int", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -54,11 +36,11 @@ namespace StudentASP.DataAccess.MSSQL.Migrations
                 {
                     table.PrimaryKey("PK_Students", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Students_Groups_NumberGroup",
-                        column: x => x.NumberGroup,
-                        principalTable: "Groups",
-                        principalColumn: "NumberGroup",
-                        onDelete: ReferentialAction.NoAction);
+                        name: "FK_Students_Teachers_TeacherClassroomId",
+                        column: x => x.TeacherClassroomId,
+                        principalTable: "Teachers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -69,7 +51,7 @@ namespace StudentASP.DataAccess.MSSQL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<int>(type: "int", nullable: false),
                     TeacherId = table.Column<int>(type: "int", nullable: false),
-                    StudentId = table.Column<int>(type: "int", nullable: true)
+                    StudentId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -79,7 +61,7 @@ namespace StudentASP.DataAccess.MSSQL.Migrations
                         column: x => x.StudentId,
                         principalTable: "Students",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Subjects_Teachers_TeacherId",
                         column: x => x.TeacherId,
@@ -107,7 +89,7 @@ namespace StudentASP.DataAccess.MSSQL.Migrations
                         column: x => x.StudentId,
                         principalTable: "Students",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Scores_Subjects_SubjectId",
                         column: x => x.SubjectId,
@@ -115,11 +97,6 @@ namespace StudentASP.DataAccess.MSSQL.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.NoAction);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Groups_TeacherClassroomId",
-                table: "Groups",
-                column: "TeacherClassroomId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Scores_StudentId",
@@ -132,9 +109,9 @@ namespace StudentASP.DataAccess.MSSQL.Migrations
                 column: "SubjectId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Students_NumberGroup",
+                name: "IX_Students_TeacherClassroomId",
                 table: "Students",
-                column: "NumberGroup");
+                column: "TeacherClassroomId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Subjects_StudentId",
@@ -145,13 +122,7 @@ namespace StudentASP.DataAccess.MSSQL.Migrations
                 name: "IX_Subjects_TeacherId",
                 table: "Subjects",
                 column: "TeacherId");
-
-            //InitObjects
-
-           
-
         }
-
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
@@ -163,9 +134,6 @@ namespace StudentASP.DataAccess.MSSQL.Migrations
 
             migrationBuilder.DropTable(
                 name: "Students");
-
-            migrationBuilder.DropTable(
-                name: "Groups");
 
             migrationBuilder.DropTable(
                 name: "Teachers");

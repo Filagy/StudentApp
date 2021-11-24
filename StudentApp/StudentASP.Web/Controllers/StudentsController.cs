@@ -1,30 +1,29 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StudentASP.Domain.Interfaces;
-using StudentASP.Domain.Models;
 using StudentASP.Web.ViewModels;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace StudentASP.Web.Controllers
 {
-    
     public class StudentsController : Controller
     {
-        private readonly IStudentRepository _studentRepository;
+        private readonly IStudentsRepository _allStudents;
+        private readonly IStudentsRepository _badStudents;
 
-        public StudentsController(IStudentRepository studentRepository)
+        public StudentsController(IStudentsRepository allStudents)
         {
-            _studentRepository = studentRepository;
+            _allStudents = allStudents;
         }
 
-        [Route("")]
-        [Route("AllStudents")]
-        [HttpGet]
-        public async Task<IActionResult> GetAllStudents()
+        public ViewResult GetAllStudents()
         {
-            List<Student> students = await _studentRepository.GetAllStudentsAsync();
-            return View(students);
+
+            return View();
         }
-        
+        public ViewResult BadStudents()
+        {
+
+
+            return View();
+        }
     }
 }
