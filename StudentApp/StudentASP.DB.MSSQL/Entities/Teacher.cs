@@ -6,7 +6,7 @@ namespace StudentASP.DataAccess.MSSQL.Entities
 
     public class Teacher : Person
     {
-        public virtual List<Subject> Subjects { get; set; }
-        public virtual List<Student> Students { get; set; }
+        public List<Subject> Subjects { get; set; }
+        public List<Group> Groups { get; set; }
     }
 }

@@ -1,0 +1,28 @@
+﻿@model List<Group>
+
+<div class="row col-12 mt-4">
+    <h1>Все группы</h1>
+</div>
+
+<table class="table mt-4">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Номер группы</th>
+            <th scope="col">Классный руководитель</th>
+            <th scope="col">Средний балл</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (Group group in Model)
+        {
+            <tr>
+                <th>@group.NumberGroup</th>
+                <th>@group.TeacherClassroom.LastName</th>
+                <th>@group.NumberGroup</th>
+            </tr>
+        }
+
+    </tbody>
+</table>
+

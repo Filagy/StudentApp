@@ -9,7 +9,7 @@ using StudentASP.DataAccess.MSSQL;
 using StudentASP.DataAccess.MSSQL.Repository;
 using StudentASP.Domain.Interfaces;
 
-namespace StudentASP
+namespace StudentASP.Web
 {
     public class Startup
     {
@@ -24,11 +24,19 @@ namespace StudentASP
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(cfg =>
+            {
+                cfg.AddProfile<WebMappingProfile>();
+                cfg.AddProfile<DataAccessMappingProfile>();
+            });
+
             services.AddDbContext<StudentAppDbContext>(options => options
                 .UseSqlServer(_confString.GetConnectionString("DefaultConnection")));
+
             services.AddMvc();
             services.AddControllersWithViews();
-            services.AddTransient<IStudentsRepository, StudentsRepository>();
+            services.AddTransient<IStudentRepository, StudentRepository>();
+            services.AddTransient<IGroupsRepository, GroupRepository>();
         }
 
 
@@ -51,29 +59,10 @@ namespace StudentASP
 
             app.UseAuthorization();
             //app.UseMvcWithDefaultRoute();
-            
 
-            using(var scope = app.ApplicationServices.CreateScope())
-            {
-                var context = scope.ServiceProvider.GetRequiredService<StudentAppDbContext>();
-                
-                DbObjects.Initial(context);
-            }
 
-            app.UseEndpoints(endpoints =>
-            {
-                //endpoints.MapControllerRoute(
-                //    name: "default",
-                //    pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Student}/{action=AllStudents}");
-
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Student}/{action=BadStudents}");
-
-            });
+            app.UseEndpoints(endpoint =>
+            endpoint.MapControllers());
         }
     }
 }

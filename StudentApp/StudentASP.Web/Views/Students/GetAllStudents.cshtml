@@ -1,4 +1,6 @@
-﻿<div class="row col-12 mt-4">
+﻿@model List<Student>
+
+<div class="row col-12 mt-4">
     <h1>Все студенты</h1>
 </div>
 
@@ -14,35 +16,17 @@
     </thead>
     <tbody>
 
-
-
-        @foreach (Student student in Model.AllStudents)
+        @foreach (Student student in Model)
         {
             <tr>
-
-                <td scope="row">@student.FirstName</td>
+                <th scope="row">@student.FirstName</th>
                 <th>@student.LastName</th>
-                <th>@student.NumberGroup</th>
-
-                @foreach (Teacher teacher in Model.Teachers)
-                {
-                    if (true)
-                    {
-                        <th>
-                            @teacher.FirstName
-                        </th>
-                    }
-                }
-                <th>5</th>
-
-                
+                <th>@student.Group.NumberGroup</th>
+                <th>@student.Group.TeacherClassroom.LastName</th>
+                <th>@student.Scores.Average(x=>x.Value).ToString("#.#")</th>
             </tr>
         }
 
-
-
-        </tbody>
+    </tbody>
 </table>
-
-
 
