@@ -4,7 +4,7 @@ using StudentASP.DataAccess.MSSQL.Entities;
 
 namespace StudentASP.DataAccess.MSSQL
 {
-    public class StudentAppDbContext : DbContext
+    public class DiaryAppDbContext : DbContext
     {
         public DbSet<Student> Students { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
@@ -12,7 +12,7 @@ namespace StudentASP.DataAccess.MSSQL
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Group> Groups { get; set; }
 
-        public StudentAppDbContext(DbContextOptions<StudentAppDbContext> options) 
+        public DiaryAppDbContext(DbContextOptions<DiaryAppDbContext> options) 
             : base(options)
         {
             

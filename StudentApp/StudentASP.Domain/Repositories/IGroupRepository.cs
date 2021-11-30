@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StudentASP.Domain.Interfaces
+namespace StudentASP.Domain.Repositories
 {
-    public interface IGroupsRepository
+    public interface IGroupRepository : IRepositoryBase<Group>
     {
-        Task<List<Group>> GetGroupsAsync();
+        
     }
 }

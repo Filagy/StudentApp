@@ -9,7 +9,7 @@ using StudentASP.DataAccess.MSSQL;
 
 namespace StudentASP.DataAccess.MSSQL.Migrations
 {
-    [DbContext(typeof(StudentAppDbContext))]
+    [DbContext(typeof(DiaryAppDbContext))]
     [Migration("20211122093019_InitStudents")]
     partial class InitStudents
     {

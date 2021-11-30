@@ -21,11 +21,11 @@ namespace StudentASP.DataAccess.MSSQL
         private static List<Subject> _subjects = new List<Subject>();
         private static List<Score> _scores = new List<Score>();
 
-        private static StudentAppDbContext _context;
+        private static DiaryAppDbContext _context;
 
 
 
-        public static void Initial(StudentAppDbContext context)
+        public static void Initial(DiaryAppDbContext context)
         {
             _context = context;
 

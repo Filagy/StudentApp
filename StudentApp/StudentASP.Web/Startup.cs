@@ -5,9 +5,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using StudentASP.DataAccess.MSSQL;
 using StudentASP.DataAccess.MSSQL.Repository;
 using StudentASP.Domain.Interfaces;
+using StudentASP.Domain.Repositories;
+using System.IO;
 
 namespace StudentASP.Web
 {
@@ -30,13 +33,21 @@ namespace StudentASP.Web
                 cfg.AddProfile<DataAccessMappingProfile>();
             });
 
-            services.AddDbContext<StudentAppDbContext>(options => options
+            services.AddDbContext<DiaryAppDbContext>(options => options
                 .UseSqlServer(_confString.GetConnectionString("DefaultConnection")));
 
             services.AddMvc();
-            services.AddControllersWithViews();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ElecDiary API", Version = "v1" });
+                var filePath = Path.Combine(System.AppContext.BaseDirectory, "StudentASP.Web.xml");
+                c.IncludeXmlComments(filePath);
+            });
+
+            services.AddControllers();
             services.AddTransient<IStudentRepository, StudentRepository>();
-            services.AddTransient<IGroupsRepository, GroupRepository>();
+            services.AddTransient<IGroupRepository, GroupRepository>();
         }
 
 
@@ -52,6 +63,13 @@ namespace StudentASP.Web
 
                 app.UseHsts();
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("v1/swagger.json", "ElecDiary API V1");
+                
+            });
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

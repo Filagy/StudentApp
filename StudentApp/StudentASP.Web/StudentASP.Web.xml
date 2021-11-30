@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>StudentASP.Web</name>
+    </assembly>
+    <members>
+        <member name="T:StudentASP.Web.Controllers.GroupController">
+            <summary>
+            Controller to work with groups
+            </summary>
+        </member>
+        <member name="M:StudentASP.Web.Controllers.GroupController.GetGroups">
+            <summary>
+            Groups with students and class teachers
+            </summary>
+            <returns>List groups</returns>
+        </member>
+        <member name="T:StudentASP.Web.Controllers.StudentsController">
+            <summary>
+            Controller to work with Students
+            </summary>
+        </member>
+        <member name="M:StudentASP.Web.Controllers.StudentsController.GetAllStudents">
+            <summary>
+            All students with scores, class teacher, subjects.
+            </summary>
+            <returns>Students</returns>
+        </member>
+    </members>
+</doc>

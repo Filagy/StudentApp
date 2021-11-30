@@ -8,7 +8,7 @@ namespace StudentASP.Web
     {
         public WebMappingProfile()
         {
-            CreateMap<Student, StudentListViewModel>().ReverseMap();
+            CreateMap<Student, StudentsList>().ReverseMap();
         }
         
     }

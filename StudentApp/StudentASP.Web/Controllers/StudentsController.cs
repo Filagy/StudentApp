@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 
 namespace StudentASP.Web.Controllers
 {
-    
+    /// <summary>
+    /// Controller to work with Students
+    /// </summary>
     public class StudentsController : Controller
     {
         private readonly IStudentRepository _studentRepository;
@@ -17,7 +19,10 @@ namespace StudentASP.Web.Controllers
             _studentRepository = studentRepository;
         }
 
-        [Route("")]
+        /// <summary>
+        /// All students with scores, class teacher, subjects.
+        /// </summary>
+        /// <returns>Students</returns>
         [Route("AllStudents")]
         [HttpGet]
         public async Task<IActionResult> GetAllStudents()

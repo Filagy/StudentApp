@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace StudentASP.ViewModels
 {
-    public class StudentListViewModel
+    public class StudentsList
     {
         public List<Student> AllStudents { get; set; } 
         public List<Student> BadStudents { get; set; } 

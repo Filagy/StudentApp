@@ -8,7 +8,7 @@ using StudentASP.DataAccess.MSSQL;
 
 namespace StudentASP.DataAccess.MSSQL.Migrations
 {
-    [DbContext(typeof(StudentAppDbContext))]
+    [DbContext(typeof(DiaryAppDbContext))]
     partial class StudentAppDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

@@ -11,11 +11,11 @@ namespace StudentASP.DataAccess.MSSQL.Repository
 {
     public class StudentRepository : IStudentRepository
     {
-        private readonly StudentAppDbContext _studentAppDbContext;
+        private readonly DiaryAppDbContext _studentAppDbContext;
         private readonly IMapper _mapper;
 
         public StudentRepository(
-            StudentAppDbContext appDbContext,
+            DiaryAppDbContext appDbContext,
             IMapper mapper)
         {
             _studentAppDbContext = appDbContext;

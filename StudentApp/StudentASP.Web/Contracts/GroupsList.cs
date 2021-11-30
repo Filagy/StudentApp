@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace StudentASP.Web.ViewModels
 {
-    public class GroupAllViewModel
+    public class GroupsList
     {
         public int NumberGroup { get; set; }
         public string TeacherLastName { get; set; }
