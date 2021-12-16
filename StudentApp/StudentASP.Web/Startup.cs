@@ -1,15 +1,16 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using StudentASP.Application.Services;
 using StudentASP.DataAccess.MSSQL;
 using StudentASP.DataAccess.MSSQL.Repository;
 using StudentASP.Domain.Interfaces;
 using StudentASP.Domain.Repositories;
+using StudentASP.Domain.Services;
 using System.IO;
 
 namespace StudentASP.Web
@@ -43,11 +44,16 @@ namespace StudentASP.Web
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ElecDiary API", Version = "v1" });
                 var filePath = Path.Combine(System.AppContext.BaseDirectory, "StudentASP.Web.xml");
                 c.IncludeXmlComments(filePath);
+                c.CustomSchemaIds(type => type.ToString());
             });
 
+
             services.AddControllers();
-            services.AddTransient<IStudentRepository, StudentRepository>();
+            services.AddTransient<IStudentsRepository, StudentRepository>();
             services.AddTransient<IGroupRepository, GroupRepository>();
+
+            services.AddTransient<IStudentsService, StudentService>();
+            services.AddTransient<IGroupService, GroupService>();
         }
 
 
@@ -68,19 +74,18 @@ namespace StudentASP.Web
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("v1/swagger.json", "ElecDiary API V1");
-                
+
             });
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
 
-            app.UseAuthorization();
-            //app.UseMvcWithDefaultRoute();
-
 
             app.UseEndpoints(endpoint =>
-            endpoint.MapControllers());
+            {
+                endpoint.MapControllers();
+            });
         }
     }
 }

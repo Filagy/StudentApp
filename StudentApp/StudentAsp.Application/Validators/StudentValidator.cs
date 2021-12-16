@@ -10,9 +10,9 @@ namespace StudentASP.Application.Validators
     {
         public StudentValidator()
         {
-            RuleFor(x => x.NumberGroup).NotEmpty();
-            RuleFor(x => x.FirstName).Length(2,20);
-            RuleFor(x => x.LastName).Length(2,20);
+            RuleFor(x => x.NumberGroup).ExclusiveBetween(134, 136);
+            RuleFor(x => x.FirstName).NotNull().Length(2,20);
+            RuleFor(x => x.LastName).NotNull().Length(2,20);
             RuleForEach(x => x.Subjects).SetValidator(new SubjectValidator());
         }
     }

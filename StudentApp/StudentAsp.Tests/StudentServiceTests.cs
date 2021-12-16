@@ -4,7 +4,8 @@ using System.Text;
 
 namespace StudentAsp.Tests
 {
-    class HomeworkServiceTests
+   
+    public class StudentServiceTests
     {
     }
 }

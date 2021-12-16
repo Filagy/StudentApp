@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using StudentASP.Application.Exeptions;
+using StudentASP.Application.Exceptions;
+using StudentASP.Application.Validators;
 using StudentASP.Domain.Models;
 using StudentASP.Domain.Repositories;
 using StudentASP.Domain.Services;
@@ -37,19 +38,38 @@ namespace StudentASP.Application.Services
                 return group;
         }
 
-        public Task<IEnumerable<Group>> Get()
+        public Task<List<Group>> Get()
         {
             var groups = _groupRepository.GetAll();
 
-            if (groups == null)
+            if (groups is null)
                 throw new ApplicationException("Группы еще не были добавлены");
             else
                 return groups;
         }
 
-        public Task<string> Create(Group group)
+        public async Task<int> Create(Group newGroup)
         {
-            throw new NotImplementedException();
+            if (newGroup is null)
+            {
+                throw new ArgumentNullException(nameof(newGroup));
+            }
+
+            var validator = new GroupValidator();
+            var validationResult = await validator.ValidateAsync(newGroup);
+            if (validationResult.IsValid == false)
+            {
+                var errors = validationResult.ToString(", ");
+                throw new InvalidOperationException(errors);
+            }
+
+            var existedGroup = _groupRepository.GetById(newGroup.NumberGroup);
+            if (existedGroup is null)
+            {
+                throw new ApplicationException("This group already exist");
+            }
+
+           return await _groupRepository.Create(newGroup);
         }
 
         public Task<string> Delete(int numberGroup)
@@ -59,7 +79,7 @@ namespace StudentASP.Application.Services
 
 
 
-        public Task<string> Update()
+        public Task<int> Update(Group group)
         {
             throw new NotImplementedException();
         }

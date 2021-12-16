@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 
 
-namespace StudentASP.ViewModels
+namespace StudentASP.Web.Contracts
 {
     public class StudentsList
     {
-        public List<Student> AllStudents { get; set; } 
-        public List<Student> BadStudents { get; set; } 
-        public List<Teacher> Teachers { get; set; }
+        public List<Student> Students { get; set; }
     }
 }

@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace StudentASP.Web.Contracts
 {
-    public class NewGroup
+    public class CreatedStudent
     {
-        public int NumberGroup { get; set; }
-        public string TeacherClassroom { get; set; }
+        public int StudentId { get; set; }
     }
 }

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace StudentASP.Web.ViewModels
+namespace StudentASP.Web.Contracts
 {
-    public class GroupsList
+    public class Group
     {
         public int NumberGroup { get; set; }
         public string TeacherLastName { get; set; }

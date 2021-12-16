@@ -9,18 +9,13 @@
             Controller to work with groups
             </summary>
         </member>
-        <member name="M:StudentASP.Web.Controllers.GroupController.GetGroups">
+        <member name="M:StudentASP.Web.Controllers.GroupController.Get">
             <summary>
             Groups with students and class teachers
             </summary>
             <returns>List groups</returns>
         </member>
-        <member name="T:StudentASP.Web.Controllers.StudentsController">
-            <summary>
-            Controller to work with Students
-            </summary>
-        </member>
-        <member name="M:StudentASP.Web.Controllers.StudentsController.GetAllStudents">
+        <member name="M:StudentASP.Web.Controllers.StudentController.Get">
             <summary>
             All students with scores, class teacher, subjects.
             </summary>

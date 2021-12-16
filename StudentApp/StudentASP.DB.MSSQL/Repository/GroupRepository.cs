@@ -23,7 +23,7 @@ namespace StudentASP.DataAccess.MSSQL.Repository
             _mapper = mapper;
         }
 
-        public async Task Create(Group newGroup)
+        public async Task<int> Create(Group newGroup)
         {
             if (newGroup is null)
             {
@@ -34,6 +34,8 @@ namespace StudentASP.DataAccess.MSSQL.Repository
 
             await _diaryAppDbContext.Groups.AddAsync(group);
             await _diaryAppDbContext.SaveChangesAsync();
+
+            return group.NumberGroup;
         }
 
         public async Task Delete(Group deleteGroup)
@@ -63,7 +65,7 @@ namespace StudentASP.DataAccess.MSSQL.Repository
 
         }
 
-        public async Task<IEnumerable<Group>> GetAll()
+        public async Task<List<Group>> GetAll()
         {
             var groups = await _diaryAppDbContext.Groups
                .Include(x => x.TeacherClassroom)

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using StudentASP.Domain.Models;
-using StudentASP.ViewModels;
+using StudentASP.Web.Contracts;
+using System.Linq;
 
 namespace StudentASP.Web
 {
@@ -8,8 +9,16 @@ namespace StudentASP.Web
     {
         public WebMappingProfile()
         {
-            CreateMap<Student, StudentsList>().ReverseMap();
+            CreateMap<Domain.Models.Student, Contracts.Student>()
+                .ForMember(
+                    dest => dest.AverageScore,
+                    opt => opt.MapFrom(
+                        srs => srs.Scores.Average(x => x.Value)))
+                .ForMember(
+                    dest => dest.Teacher,
+                    opt => opt.MapFrom(
+                        src => src.Group.TeacherClassroom.LastName));
         }
-        
+
     }
 }

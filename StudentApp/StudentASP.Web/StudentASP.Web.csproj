@@ -35,7 +35,6 @@
     <ProjectReference Include="..\StudentAsp.Application\StudentASP.Application.csproj" />
     <ProjectReference Include="..\StudentASP.DB.MSSQL\StudentASP.DataAccess.MSSQL.csproj" />
     <ProjectReference Include="..\StudentASP.Domain\StudentASP.Domain.csproj" />
-    <ProjectReference Include="..\StudentAsp.Tests\StudentASP.Tests.csproj" />
   </ItemGroup>
 
 </Project>
