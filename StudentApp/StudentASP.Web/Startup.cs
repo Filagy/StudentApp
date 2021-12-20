@@ -81,7 +81,7 @@ namespace StudentASP.Web
 
             app.UseRouting();
 
-
+            app.UseAuthentication();
             app.UseEndpoints(endpoint =>
             {
                 endpoint.MapControllers();
