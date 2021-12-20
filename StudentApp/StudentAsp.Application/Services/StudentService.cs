@@ -67,9 +67,6 @@ namespace StudentASP.Application.Services
 
         public async Task<Student> Get(int studentId)
         {
-            // validate isExist
-            // validate id == 0
-            // get from db
             if (studentId <= default(int))
             {
                 throw ExceptionHelper.CreateArgumentShouldBeGreaterException(nameof(studentId));
@@ -80,9 +77,7 @@ namespace StudentASP.Application.Services
 
         public async Task<List<Student>> Get()
         {
-            // get all from db
-            var students = await _studentRepository.Get();
-            return students;
+            return await _studentRepository.Get();
         }
 
         public Task<int> Update(Student student)

@@ -48,9 +48,9 @@ namespace StudentASP.Web.Controllers
         /// One student with scores, class teacher, subjects.
         /// </summary>
         /// <returns>Student</returns>
-        [HttpGet]
+        [HttpGet("{id}")]
         [ProducesResponseType(typeof(Student), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get([FromRoute]int id)
         {
             var student = await _studentsService.Get(id);
 

@@ -22,6 +22,7 @@ namespace StudentASP.DataAccess.MSSQL.Repository
             _mapper = mapper;
         }
 
+
         public Task<int> Add(Student student)
         {
             throw new NotImplementedException();
@@ -36,6 +37,7 @@ namespace StudentASP.DataAccess.MSSQL.Repository
         {
             var students =
                 await _studentAppDbContext.Students
+                .AsNoTracking()
                 .Include(x => x.Scores)
                 .Include(x => x.Group.TeacherClassroom)
                 .ToListAsync();
@@ -46,7 +48,12 @@ namespace StudentASP.DataAccess.MSSQL.Repository
 
         public async Task<Student> Get(int studentId)
         {
-            var student =  await _studentAppDbContext.Students.FirstOrDefaultAsync(x => x.Id == studentId);
+            var student =  await _studentAppDbContext.Students
+                .AsNoTracking()
+                .Include(x => x.Scores)
+                .Include(x => x.Group.TeacherClassroom)
+                .FirstOrDefaultAsync(x => x.Id == studentId);
+
             return _mapper.Map<Entities.Student, Student>(student);
         }
     }

@@ -21,5 +21,11 @@
             </summary>
             <returns>Students</returns>
         </member>
+        <member name="M:StudentASP.Web.Controllers.StudentController.Get(System.Int32)">
+            <summary>
+            One student with scores, class teacher, subjects.
+            </summary>
+            <returns>Student</returns>
+        </member>
     </members>
 </doc>
