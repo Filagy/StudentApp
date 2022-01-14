@@ -1,12 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using StudentASP.Domain.Models;
-using StudentASP.Domain.Repositories;
 using StudentASP.Domain.Services;
 using StudentASP.Web.Contracts;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -15,9 +11,7 @@ namespace StudentASP.Web.Controllers
     /// <summary>
     /// Controller to work with groups
     /// </summary>
-    [ApiController]
-    [Route("api/[controller]")]
-    public class GroupController : ControllerBase
+    public class GroupController : ApiController
     {
         private readonly IGroupService _groupService;
         private readonly IMapper _mapper;

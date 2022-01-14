@@ -3,6 +3,7 @@ using StudentASP.Application.Exceptions;
 using StudentASP.Application.Validators;
 using StudentASP.Domain.Interfaces;
 using StudentASP.Domain.Models;
+using StudentASP.Domain.Repositories;
 using StudentASP.Domain.Services;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace StudentASP.Application.Services
     {
         private readonly IStudentsRepository _studentRepository;
         private readonly IMapper _mapper;
+        private IUserRepository @object;
         public const string STUDENT_WAS_NOT_FOUND = "Student was not found with this id: ";
         
 

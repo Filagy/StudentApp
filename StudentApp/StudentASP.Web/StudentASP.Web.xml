@@ -15,6 +15,11 @@
             </summary>
             <returns>List groups</returns>
         </member>
+        <member name="T:StudentASP.Web.Controllers.StudentController">
+            <summary>
+            Controller to work with Students
+            </summary>
+        </member>
         <member name="M:StudentASP.Web.Controllers.StudentController.Get">
             <summary>
             All students with scores, class teacher, subjects.

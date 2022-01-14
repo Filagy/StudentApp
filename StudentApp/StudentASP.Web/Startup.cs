@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -28,6 +29,13 @@ namespace StudentASP.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddAuthentication(x =>
+            //{
+            //    x.DefaultScheme = "Default";
+            //    x.AddScheme<AuthHandler>(x.DefaultScheme, null); 
+            //});
+            services.AddCors();
+
             services.AddAutoMapper(cfg =>
             {
                 cfg.AddProfile<WebMappingProfile>();
@@ -80,8 +88,10 @@ namespace StudentASP.Web
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseCors(builder =>
+                builder.AllowAnyOrigin());
 
-            app.UseAuthentication();
+            //app.UseAuthentication();
             app.UseEndpoints(endpoint =>
             {
                 endpoint.MapControllers();

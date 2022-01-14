@@ -1,21 +1,17 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using StudentASP.Domain.Interfaces;
 using StudentASP.Domain.Services;
 using StudentASP.Web.Contracts;
-using StudentASP.Web.ViewModels;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 
 namespace StudentASP.Web.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
     /// <summary>
     /// Controller to work with Students
     /// </summary>
-    public class StudentController : ControllerBase
+    public class StudentController : ApiController
     {
         private readonly IStudentsService _studentsService;
         private readonly IMapper _mapper;
@@ -52,6 +48,7 @@ namespace StudentASP.Web.Controllers
         [ProducesResponseType(typeof(Student), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Get([FromRoute]int id)
         {
+            
             var student = await _studentsService.Get(id);
 
             var result = _mapper
